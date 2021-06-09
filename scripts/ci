@@ -6,6 +6,6 @@ cd $(dirname $0)
 ./prebuild
 ./build
 ./validate
-./test
-./integration-test
+#./test
+#./integration-test
 ./package
