@@ -8,7 +8,8 @@ cd $(dirname $0)/..
 PROJECT=`basename "$PWD"`
 
 TAG=${TAG:-${VERSION}}
-REPO=${REPO:-longhornio}
+#REPO=${REPO:-longhornio}
+REPO=${REPO:-dormi330}
 IMAGE=${REPO}/${PROJECT}:${TAG}
 
 case $(uname -m) in
