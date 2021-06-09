@@ -28,8 +28,11 @@ RUN rm -f /bin/sh && ln -s /bin/bash /bin/sh
 # Install Go & tools
 ENV GOLANG_ARCH_amd64=amd64 GOLANG_ARCH_arm64=arm64 GOLANG_ARCH=GOLANG_ARCH_${ARCH} \
     GOPATH=/go PATH=/go/bin:/usr/local/go/bin:${PATH} SHELL=/bin/bash
-RUN wget -O - https://storage.googleapis.com/golang/go1.14.4.linux-${!GOLANG_ARCH}.tar.gz | tar -xzf - -C /usr/local && \
-    go get github.com/rancher/trash && go get -u golang.org/x/lint/golint
+RUN wget -O - https://storage.googleapis.com/golang/go1.14.4.linux-${!GOLANG_ARCH}.tar.gz | tar -xzf - -C /usr/local
+ENV GOPROXY=https://goproxy.io,direct
+RUN go get github.com/rancher/trash
+#go get -u golang.org/x/lint/golint
+
 
 # Docker
 ENV DOCKER_URL_amd64=https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/docker-ce_18.06.3~ce~3-0~ubuntu_amd64.deb \
@@ -87,6 +90,7 @@ RUN pip3 install grpcio==1.22.0 grpcio_tools==1.22.0
 
 # buf
 ENV GO111MODULE=on
+ENV GOPROXY=https://goproxy.io,direct
 RUN go get \
   github.com/bufbuild/buf/cmd/buf@v0.26.0 \
   github.com/bufbuild/buf/cmd/protoc-gen-buf-check-breaking@v0.26.0 \
