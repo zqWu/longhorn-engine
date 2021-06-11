@@ -602,6 +602,8 @@ func (c *Controller) checkReplicasRevisionCounter() error {
 }
 
 func (c *Controller) Start(addresses ...string) error {
+	logrus.Infof("Start %v ", addresses)
+
 	c.Lock()
 	defer c.Unlock()
 

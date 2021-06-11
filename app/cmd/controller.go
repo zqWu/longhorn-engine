@@ -18,6 +18,10 @@ import (
 	"github.com/longhorn/longhorn-engine/pkg/util"
 )
 
+func init() {
+	logrus.WithFields(logrus.Fields{"src": "controller"})
+}
+
 func ControllerCmd() cli.Command {
 	return cli.Command{
 		Name: "controller",
@@ -76,6 +80,8 @@ func startController(c *cli.Context) error {
 	isUpgrade := c.Bool("upgrade")
 	disableRevCounter := c.Bool("disableRevCounter")
 	salvageRequested := c.Bool("salvageRequested")
+	logrus.Infof("controller.startController, listen %v, backends %v, replicas %v frontendName %v, isUpgrade %v salvageRequested %v",
+		listen, backends, replicas, frontendName, isUpgrade, salvageRequested)
 
 	factories := map[string]types.BackendFactory{}
 	for _, backend := range backends {

@@ -23,6 +23,10 @@ import (
 	"github.com/longhorn/longhorn-engine/proto/ptypes"
 )
 
+func init() {
+	logrus.WithFields(logrus.Fields{"src": "replica"})
+}
+
 func ReplicaCmd() cli.Command {
 	return cli.Command{
 		Name:      "replica",
@@ -76,6 +80,8 @@ func startReplica(c *cli.Context) error {
 
 	dir := c.Args()[0]
 	backingFile, err := backing.OpenBackingFile(c.String("backing-file"))
+	logrus.Infof("replica.startReplica  dir:%v,  backingFile:%v", dir, backingFile)
+
 	if err != nil {
 		return err
 	}

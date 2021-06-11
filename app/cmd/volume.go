@@ -8,6 +8,10 @@ import (
 	"github.com/urfave/cli"
 )
 
+func init() {
+	logrus.WithFields(logrus.Fields{"src": "volume"})
+}
+
 func InfoCmd() cli.Command {
 	return cli.Command{
 		Name: "info",

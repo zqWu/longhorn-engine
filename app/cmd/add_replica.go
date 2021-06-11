@@ -11,6 +11,10 @@ import (
 	"github.com/longhorn/longhorn-engine/pkg/sync"
 )
 
+func init() {
+	logrus.WithFields(logrus.Fields{"src": "add_replica"})
+}
+
 func AddReplicaCmd() cli.Command {
 	return cli.Command{
 		Name:      "add-replica",
@@ -41,6 +45,9 @@ func addReplica(c *cli.Context) error {
 	if c.Bool("restore") {
 		return task.AddRestoreReplica(replica)
 	}
+
+	logrus.Infof("add_replica.addReplica, replica:%v, url:%v, restore:%v", replica, url, restore)
+
 	return task.AddReplica(replica)
 }
 
@@ -64,6 +71,7 @@ func startWithReplicas(c *cli.Context) error {
 
 	url := c.GlobalString("url")
 	task := sync.NewTask(url)
+	logrus.Infof("add_replica.startWithReplicas, replicas:%v, url:%v", replicas, url)
 	return task.StartWithReplicas(replicas)
 }
 
@@ -92,6 +100,8 @@ func rebuildStatus(c *cli.Context) error {
 	}
 
 	fmt.Println(string(output))
+	logrus.Infof("add_replica.rebuildStatus, taskUrl:%v", c.GlobalString("url"))
+
 	return nil
 }
 
@@ -117,5 +127,6 @@ func verifyRebuildReplica(c *cli.Context) error {
 	if err := task.VerifyRebuildReplica(address); err != nil {
 		return err
 	}
+	logrus.Infof("add_replica.verifyRebuildReplica, address:%v, taskUrl:%v", address, c.GlobalString("url"))
 	return nil
 }
